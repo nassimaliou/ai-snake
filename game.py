@@ -26,7 +26,7 @@ class Direction(Enum):
 BLOCK_SIZE = 20
 SPEED = 10
 
-class SnakeGame:
+class SnakeGameAI:
 
 
     def __init__(self, w=640, h=480):
@@ -39,6 +39,7 @@ class SnakeGame:
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
 
+    def reset(self):
         #game state
 
         self.direction = Direction.RIGHT
@@ -54,6 +55,8 @@ class SnakeGame:
         self.score = 0
         self.food = None
         self._place_food()
+
+
 
     def _place_food(self):
         #randomly placing food
