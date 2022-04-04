@@ -15,7 +15,14 @@ alpha = 0.001
 
 class Agent:
     def __init__(self):
-        pass
+        self.number_games == 0
+        self.epsilon = 0 #randomness
+        self.gamma = 0 #discount rate
+        self.memory = deque(maxlen=MAX_MEMORY) #popleft()
+
+        
+
+
 
     def get_state(self, game):
         pass
