@@ -71,6 +71,7 @@ class SnakeGame:
                     pygame.quit()
                     quit()
 
+            #user input
             if event.type == pygame.KEYDOWN:
 
                 if event.key == pygame.K_LEFT:
@@ -81,4 +82,17 @@ class SnakeGame:
                     self.direction = Direction.UP
                 elif event.key == pygame.K_DOWN:
                     self.direction = Direction.DOWN
-              
+            
+            #movement
+            self._move(self.direction)
+            self.snake.insert(0, self.head)
+
+            #check game over
+
+            game_over = False
+
+            if self._is_collision():
+                game_over = True
+                return game_over, self.score
+
+            
