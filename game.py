@@ -109,6 +109,16 @@ class SnakeGame:
             self.clock.tick(SPEED)
 
             return game_over, self.score
+    
+
+    def _is_collision(self):
+        
+        if self.head.x < 0 or self.head.x > self.w-BLOCK_SIZE or self.head.y < 0 or self.head.y > self.h-BLOCK_SIZE:
+            return True
+        elif self.head in self.snake:
+            return True
+        else:
+            return False
 
 
             
