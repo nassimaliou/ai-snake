@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from chess import BLACK
 import pygame
 import random
@@ -38,6 +39,7 @@ class SnakeGameAI:
         self.display = pygame.display.set_mode((self.w, self.h))
         pygame.display.set_caption('Snake')
         self.clock = pygame.time.Clock()
+        self.reset()
 
     def reset(self):
         #game state
@@ -55,7 +57,7 @@ class SnakeGameAI:
         self.score = 0
         self.food = None
         self._place_food()
-
+        self.frame_iteration = 0
 
 
     def _place_food(self):
@@ -69,13 +71,16 @@ class SnakeGameAI:
             self._place_food()
 
 
-    def play_step(self):
+    def play_step(self, action):
+
+        self.frame_iteration += 1
+        reward = 0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-
+            """
             #user input
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -86,23 +91,27 @@ class SnakeGameAI:
                     self.direction = Direction.UP
                 elif event.key == pygame.K_DOWN:
                     self.direction = Direction.DOWN
+            """
+
 
         
         #movement
-        self._move(self.direction)
+        self._move(action)
         self.snake.insert(0, self.head)
 
         #check game over
         game_over = False
-        if self._is_collision():
+        if self._is_collision() or self.frame_iteration > 100*len(self.snake):
             game_over = True
-            return game_over, self.score
+            reward = -10
+            return reward, game_over, self.score
 
 
 
         #eat and place new food
         if self.head == self.food:
             self.score += 1
+            reward = 10
             self._place_food()
         else:
             self.snake.pop()
@@ -112,15 +121,18 @@ class SnakeGameAI:
         self._update_ui()
         self.clock.tick(SPEED)
 
-        return game_over, self.score
+        return reward, game_over, self.score
 
 
-    def _is_collision(self):
+    def _is_collision(self, pt=None):
 
-        if self.head.x > self.w - BLOCK_SIZE or self.head.x < 0 or self.head.y > self.h - BLOCK_SIZE or self.head.y < 0:
+        if pt is None:
+            pt = self.head
+
+        if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y > self.h - BLOCK_SIZE or pt.y < 0:
             return True
 
-        if self.head in self.snake[1:]: #if it hits itself
+        if pt in self.snake[1:]: #if it hits itself
             return True
         
         return False
@@ -141,7 +153,15 @@ class SnakeGameAI:
 
 
 
-    def _move(self, direction):
+    def _move(self, action):
+
+        # [straight, right, left]
+
+        clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
+        idx = clock_wise.index(self.direction)
+
+        
+
         x = self.head.x
         y = self.head.y
 
