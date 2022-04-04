@@ -135,7 +135,40 @@ class SnakeGame:
         self.display.blit(text, [0, 0])
         pygame.display.flip()
     
-    
+
+
+
+    def move(self, direction):
+        x = self.head.x
+        y = self.head.y
+
+        if direction == Direction.RIGHT:
+            x += BLOCK_SIZE
+        elif direction == Direction.LEFT:
+            x -= BLOCK_SIZE
+        elif direction == Direction.DOWN:
+            y += BLOCK_SIZE
+        elif direction == Direction.UP:
+            y -= BLOCK_SIZE
+
+        self.head = Point(x, y)
+
+
+if __name__ == '__main__':
+    game = SnakeGame()
+
+
+    while True:
+        game_over, score = game.play_step()
+        
+        if game_over == True:
+            break
+        
+    print('Final Score', score)
+
+    pygame.quit()
+
+
 
 
 
