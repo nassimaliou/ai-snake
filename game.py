@@ -24,7 +24,7 @@ class Direction(Enum):
 
 
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 10
 
 class SnakeGame:
 
@@ -73,16 +73,16 @@ class SnakeGame:
                 pygame.quit()
                 quit()
 
-        #user input
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                self.direction = Direction.LEFT
-            elif event.key == pygame.K_RIGHT:
-                self.direction = Direction.RIGHT
-            elif event.key == pygame.K_UP:
-                self.direction = Direction.UP
-            elif event.key == pygame.K_DOWN:
-                self.direction = Direction.DOWN
+            #user input
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    self.direction = Direction.LEFT
+                elif event.key == pygame.K_RIGHT:
+                    self.direction = Direction.RIGHT
+                elif event.key == pygame.K_UP:
+                    self.direction = Direction.UP
+                elif event.key == pygame.K_DOWN:
+                    self.direction = Direction.DOWN
 
         
         #movement
@@ -114,7 +114,7 @@ class SnakeGame:
 
     def _is_collision(self):
 
-        if self.head.x > self.w -BLOCK_SIZE or self.head.x < 0 or self.head.y > 0 or self.head.y > self.h-BLOCK_SIZE:
+        if self.head.x > self.w - BLOCK_SIZE or self.head.x < 0 or self.head.y > self.h - BLOCK_SIZE or self.head.y < 0:
             return True
 
         if self.head in self.snake[1:]: #if it hits itself
