@@ -138,7 +138,7 @@ class SnakeGame:
 
 
 
-    def move(self, direction):
+    def _move(self, direction):
         x = self.head.x
         y = self.head.y
 
