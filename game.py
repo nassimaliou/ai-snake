@@ -1,3 +1,4 @@
+from chess import BLACK
 import pygame
 import random
 
@@ -112,13 +113,32 @@ class SnakeGame:
     
 
     def _is_collision(self):
+
+        if self.head.x > self.w -BLOCK_SIZE or self.head.x < 0 or self.head.y > 0 or self.head.y > self.h-BLOCK_SIZE:
+            return True
+
+        if self.head in self.snake[1:]: #if it hits itself
+            return True
         
-        if self.head.x < 0 or self.head.x > self.w-BLOCK_SIZE or self.head.y < 0 or self.head.y > self.h-BLOCK_SIZE:
-            return True
-        elif self.head in self.snake:
-            return True
-        else:
-            return False
+        return False
+    
+
+    def _update_ui(self):
+        self.display.fill((0, 0, 0))
+
+        for pt in self.snake:
+            pygame.draw.rect(self.display, (0, 0, 255) , (pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(self.display, (0, 100, 255) , (pt.x+4, pt.y+4, 12, 12))
+        
+        pygame.draw.rect(self.display, (200, 0, 0), pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+        text = font.render("Score: "+ str(self.score), True, (255,255,255))
+        self.display.blit(text, [0, 0])
+        pygame.display.flip()
+    
+    
+
+
+
 
 
             
