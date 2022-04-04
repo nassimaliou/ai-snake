@@ -1,4 +1,3 @@
-from re import X
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -19,7 +18,7 @@ class Linear_QNet(nn.Module):
         x = F.relu(self.linear1(x))
         x = self.linear2(x)
 
-        return X
+        return x
 
     def save(self, file_name='model.pth'):
         model_folder = './model'
@@ -32,12 +31,12 @@ class Linear_QNet(nn.Module):
 
 
 class QTrainer:
-    def __init__(self, model, alpha, gamma):
-        self.alpha = alpha
+    def __init__(self, model, lr, gamma):
+        self.lr = lr
         self.gamma = gamma
         self.model = model
 
-        self.optimizer = optim.Adam(model.parameters(), lr=self.alpha)
+        self.optimizer = optim.Adam(model.parameters(), lr=self.lr)
         self.critirion = nn.MSELoss()
 
     

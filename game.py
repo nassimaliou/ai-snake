@@ -26,7 +26,7 @@ class Direction(Enum):
 
 
 BLOCK_SIZE = 20
-SPEED = 10
+SPEED = 40
 
 class SnakeGameAI:
 
@@ -143,8 +143,8 @@ class SnakeGameAI:
         self.display.fill((0, 0, 0))
 
         for pt in self.snake:
-            pygame.draw.rect(self.display, (0, 0, 255) , (pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
-            pygame.draw.rect(self.display, (0, 100, 255) , (pt.x+4, pt.y+4, 12, 12))
+            pygame.draw.rect(self.display, (0, 125, 0) , (pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(self.display, (0, 255, 0) , (pt.x+4, pt.y+4, 12, 12))
         
         pygame.draw.rect(self.display, (200, 0, 0), pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
         text = font.render("Score: "+ str(self.score), True, (255,255,255))
