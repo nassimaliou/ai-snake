@@ -55,62 +55,62 @@ class SnakeGame:
         self.food = None
         self._place_food()
 
-        def _place_food(self):
-            #randomly placing food
-            x = random.randint(0, (self.w-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE 
-            y = random.randint(0, (self.h-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
+    def _place_food(self):
+        #randomly placing food
+        x = random.randint(0, (self.w-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE 
+        y = random.randint(0, (self.h-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
 
-            self.food = Point(x, y)
+        self.food = Point(x, y)
 
-            if self.food in self.snake:
-                self._place_food()
-
-
-        def play_step(self):
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-
-            #user input
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.direction = Direction.LEFT
-                elif event.key == pygame.K_RIGHT:
-                    self.direction = Direction.RIGHT
-                elif event.key == pygame.K_UP:
-                    self.direction = Direction.UP
-                elif event.key == pygame.K_DOWN:
-                    self.direction = Direction.DOWN
-
-            
-            #movement
-            self._move(self.direction)
-            self.snake.insert(0, self.head)
-
-            #check game over
-            game_over = False
-            if self._is_collision():
-                game_over = True
-                return game_over, self.score
+        if self.food in self.snake:
+            self._place_food()
 
 
+    def play_step(self):
 
-            #eat and place new food
-            if self.head == self.food:
-                self.score += 1
-                self._place_food()
-            else:
-                self.snake.pop()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
 
-            
-            #return game over and score
-            self._update_ui()
-            self.clock.tick(SPEED)
+        #user input
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                self.direction = Direction.LEFT
+            elif event.key == pygame.K_RIGHT:
+                self.direction = Direction.RIGHT
+            elif event.key == pygame.K_UP:
+                self.direction = Direction.UP
+            elif event.key == pygame.K_DOWN:
+                self.direction = Direction.DOWN
 
+        
+        #movement
+        self._move(self.direction)
+        self.snake.insert(0, self.head)
+
+        #check game over
+        game_over = False
+        if self._is_collision():
+            game_over = True
             return game_over, self.score
-    
+
+
+
+        #eat and place new food
+        if self.head == self.food:
+            self.score += 1
+            self._place_food()
+        else:
+            self.snake.pop()
+
+        
+        #return game over and score
+        self._update_ui()
+        self.clock.tick(SPEED)
+
+        return game_over, self.score
+
 
     def _is_collision(self):
 
