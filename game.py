@@ -23,6 +23,7 @@ class Direction(Enum):
 
 
 BLOCK_SIZE = 20
+SPEED = 20
 
 class SnakeGame:
 
@@ -73,7 +74,6 @@ class SnakeGame:
 
             #user input
             if event.type == pygame.KEYDOWN:
-
                 if event.key == pygame.K_LEFT:
                     self.direction = Direction.LEFT
                 elif event.key == pygame.K_RIGHT:
@@ -82,17 +82,33 @@ class SnakeGame:
                     self.direction = Direction.UP
                 elif event.key == pygame.K_DOWN:
                     self.direction = Direction.DOWN
+
             
             #movement
             self._move(self.direction)
             self.snake.insert(0, self.head)
 
             #check game over
-
             game_over = False
-
             if self._is_collision():
                 game_over = True
                 return game_over, self.score
+
+
+
+            #eat and place new food
+            if self.head == self.food:
+                self.score += 1
+                self._place_food()
+            else:
+                self.snake.pop()
+
+            
+            #return game over and score
+            self._update_ui()
+            self.clock.tick(SPEED)
+
+            return game_over, self.score
+
 
             
