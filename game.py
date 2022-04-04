@@ -1,15 +1,12 @@
-from pickletools import UP_TO_NEWLINE
-from tkinter import LEFT, RIGHT
-from wave import Wave_write
 import pygame
 import random
-from collections import namedtuple
-
-
 
 from enum import Enum
+from tkinter import LEFT, RIGHT
+from wave import Wave_write
+from pickletools import UP_TO_NEWLINE
+from collections import namedtuple
 
-from zmq import DOWNSTREAM
 
 Point = namedtuple('Point', 'x, y')
 
@@ -67,4 +64,21 @@ class SnakeGame:
                 self._place_food()
 
 
-        
+        def play_step(self):
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_LEFT:
+                    self.direction = Direction.LEFT
+                elif event.key == pygame.K_RIGHT:
+                    self.direction = Direction.RIGHT
+                elif event.key == pygame.K_UP:
+                    self.direction = Direction.UP
+                elif event.key == pygame.K_DOWN:
+                    self.direction = Direction.DOWN
+              
