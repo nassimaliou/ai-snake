@@ -3,11 +3,15 @@ from tkinter import LEFT, RIGHT
 from wave import Wave_write
 import pygame
 import random
+from collections import namedtuple
+
 
 
 from enum import Enum
 
 from zmq import DOWNSTREAM
+
+Point = namedtuple('Point', 'x, y')
 
 pygame.init()
 
@@ -20,6 +24,8 @@ class Direction(Enum):
     DOWN = 4
 
 
+
+BLOCK_SIZE = 20
 
 class SnakeGame:
 
@@ -36,3 +42,16 @@ class SnakeGame:
 
         #game state
 
+        self.direction = Direction.RIGHT
+
+        self.head = Point(self.w/2 , self.h/2)
+
+        self.snake = [
+            self.head,
+            Point(self.head.x-BLOCK_SIZE, self.head.y),
+            Point(self.head.x-(2*BLOCK_SIZE), self.head.y)
+        ]
+
+        self.score = 0
+        self.food = None
+        self._place_food()
